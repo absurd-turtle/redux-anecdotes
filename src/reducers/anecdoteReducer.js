@@ -22,7 +22,21 @@ const initialState = anecdotesAtStart.map(asObject)
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
-
+  switch (action.type) {
+    case 'VOTE':
+      let votedAnecdote = state.find(anecdote => anecdote.id === action.data.id)
+      return (
+        state
+          .filter(anecdote => anecdote.id !== votedAnecdote.id)
+          .concat({
+            content: votedAnecdote.content,
+            id: votedAnecdote.id,
+            votes: votedAnecdote.votes + 1
+          })
+      )
+    default:
+      break;
+  }
   return state
 }
 
